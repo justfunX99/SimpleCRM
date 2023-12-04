@@ -1,0 +1,41 @@
+server:
+  port: 8081 
+  
+spring:  
+  datasource:
+    driverClassName: org.h2.Driver
+    password: sa
+    username: sa
+    platform: h2
+    url: jdbc:h2:mem:dbtest
+    data: classpath:db/data.sql
+    schema: classpath:db/schema.sql
+    
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        web-allow-others: true
+        
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    
+#  sql:
+#    init:
+#      platform: h2
+#      data-locations: classpath:db/data.sql
+#      schema-locations: classpath:db/schema.sql
+      
+  devtools:
+    restart:
+      enabled: true  
+
+security:
+  token:
+    key: _rsa_kay_202312_
+    
+    
+    
