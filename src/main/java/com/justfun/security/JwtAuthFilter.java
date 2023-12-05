@@ -33,7 +33,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
 		String token = request.getHeader("Authorization");
 
-		if (!StringUtils.hasText(token)) {
+		if (!StringUtils.hasText(token) || !token.contains(BEARER)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
