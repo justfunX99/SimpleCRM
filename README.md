@@ -7,7 +7,7 @@
 * 登入頁面: http://localhost:8080/login
 * 取得JWT token: Authorization in response header
 * 登入成功後顯示swagger頁面: http://localhost:8080/swagger-ui/index.html
-* 設定swagger請求自動帶JWT Token: 'Bearer ' + '<JWT_token>' in Authorize Locker
+* 設定swagger請求自動帶JWT Token: 在Authorize Locker設定 'Bearer ' + '<JWT_token>'
 
 ### 切換帳號
 * 重覆登入流程  
