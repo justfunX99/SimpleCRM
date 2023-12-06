@@ -1,5 +1,5 @@
-server:
-  port: 8081 
+#server:
+#  port: 8081 
   
 spring:  
   datasource:
@@ -23,6 +23,15 @@ spring:
       ddl-auto: update
     show-sql: true
     
+  security:
+    user:
+      name: test
+      password: test
+  
+  
+    
+ 
+    
 #  sql:
 #    init:
 #      platform: h2
@@ -36,6 +45,7 @@ spring:
 security:
   token:
     key: _rsa_kay_202312_
+    
     
     
     
