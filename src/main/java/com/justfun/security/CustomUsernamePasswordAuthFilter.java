@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,17 +14,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.nimbusds.jose.JOSEException;
 
 public class CustomUsernamePasswordAuthFilter extends OncePerRequestFilter{
 	
 	private AuthenticationManager authenticationManager;
 	
-	private JwtTokenHelper jwtTokenHelper;
-	
-	public CustomUsernamePasswordAuthFilter(AuthenticationManager authenticationManager, JwtTokenHelper jwtTokenHelper) {
+	public CustomUsernamePasswordAuthFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
-		this.jwtTokenHelper = jwtTokenHelper;
 	}
 	
 	@Override
@@ -41,16 +36,7 @@ public class CustomUsernamePasswordAuthFilter extends OncePerRequestFilter{
 		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
-		if (authentication.isAuthenticated()) {
-	        try {
-	            String token = jwtTokenHelper.generateToken(authentication);
-	            Cookie jwtCookie = new Cookie("idToken", token);
-	            jwtCookie.setSecure(true);
-	            response.addCookie(jwtCookie);
-	        } catch (JOSEException e) {
-	        	System.err.println(e);
-	        }
-	    }
+		// Separate the process of generate JWT Token to the related successHandler
 		
 		filterChain.doFilter(request, response);
 	}

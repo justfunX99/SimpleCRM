@@ -14,8 +14,11 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import com.justfun.security.CustomAuthenticationFailureHandler;
+import com.justfun.security.CustomAuthenticationSuccessHandler;
 import com.justfun.security.CustomUsernamePasswordAuthFilter;
 import com.justfun.security.CustomUsernamePasswordAuthProvider;
 import com.justfun.security.JwtAuthFilter;
@@ -27,7 +30,9 @@ import com.nimbusds.jose.JOSEException;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-		
+	
+	// TODO: user multiple WebSecurityConfigurerAdapter for form login and logic API
+	
 	@Value("${security.token.key}")
 	private String kid;
 	
@@ -36,6 +41,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private JwtAuthProvider jwtAuthProvider;
+	
+	@Autowired
+	private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+	
+	@Autowired
+	private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 	
 	@Bean
 	public JwtTokenHelper jwtTokenHelper() throws JOSEException {
@@ -53,32 +64,36 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(customUsernamePasswordAuthProvider);
 		auth.authenticationProvider(jwtAuthProvider);
+		auth.authenticationProvider(customUsernamePasswordAuthProvider);
 		super.configure(auth);
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-	        .antMatchers(HttpMethod.GET, "/home", "/h2", "/h2-console", "/admin").permitAll()
-//	        .antMatchers(HttpMethod.GET, "/swagger-ui/**", "/swagger-resources/*", "/v2/api-docs", "/v2/api-docs/**").permitAll()
-	        .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-//	        .antMatchers(HttpMethod.GET, "/swagger-ui").permitAll()
-	        .anyRequest().authenticated()
-	        .and()
-	        .httpBasic();
+		http.csrf()
+			.disable()
+			.httpBasic()
+			.and()
+	        .formLogin()
+	        .loginProcessingUrl("/auth/login")
+	        .successHandler(customAuthenticationSuccessHandler)
+	        .failureHandler(customAuthenticationFailureHandler)
+			.and()
+			.authorizeRequests()
+	        .antMatchers(HttpMethod.GET, "/auth/check", "/h2", "/h2-console", "/admin").permitAll()
+	        .antMatchers("/auth/login").permitAll()
+	        .anyRequest()
+	        .authenticated()
+	        ;
 		
 		http.sessionManagement((session) -> {
 			session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		});
 		
-		http.csrf().disable();
-		
 		http.addFilterAt(
 			new CustomUsernamePasswordAuthFilter(
-				authenticationManagerBean(),
-				jwtTokenHelper()
+				authenticationManagerBean()
 			),
 			BasicAuthenticationFilter.class
 		);
