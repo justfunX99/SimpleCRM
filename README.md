@@ -21,10 +21,10 @@
 * JDBC URL: jdbc:h2:mem:dbtest
 * User Name/Password: sa/sa  
 
-### 測試帳號
-* super_user: ray/ray
-* manager: may/may
-* operator: jay/jay
+### 測試帳號與角色
+* ray/ray: SUPER_USER
+* may/may: MANAGER
+* jay/jay: OPERATOR
 
 
 
