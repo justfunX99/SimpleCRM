@@ -7,11 +7,9 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @ToString
-public class CompanyDto {
+public class CompanyDTO {
 	private String name;
+	
 	private String address;
-//	private String createdBy;
-//	private String createdAt;
-//	private String updatedBy;
-//	private String updatedAt;
+
 }
