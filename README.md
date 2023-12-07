@@ -5,10 +5,12 @@
 * Maven
 * Swagger Integration
 * JWT Authentication and Authorization
+* (暫無) Docker integration
+* (暫無) Deploy to cloud platform
 
 ### function
 * 公司資料維護
-* 客戶資料維護
+* 客戶資料維護(包含多筆新增)
   
 ### 登入
 * 登入頁面: http://localhost:8080/login
