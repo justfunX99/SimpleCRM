@@ -3,7 +3,7 @@
 * JWT Authentication and Authorization
 * Swagger Integration
 * 公司資料維護
-* 公司資料維護(進行中...)
+* 客戶資料維護(進行中...)
 * 雲端部暑(進行中...)
 
 ### 登入
