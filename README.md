@@ -1,7 +1,10 @@
 # SimpleCRM
 ## feature:
 * JWT Authentication and Authorization
-* (其它進行中…)
+* Swagger Integration
+* 公司資料維護
+* 客戶資料維護(進行中...)
+* 雲端部暑(進行中...)
 
 ### 登入
 * 登入頁面: http://localhost:8080/login
@@ -13,6 +16,8 @@
 * 重覆登入流程  
 
 ### 帳戶資訊確認: GET '/auth/check'  
+
+### 公司資料維護
 
 ### H2 Console
 * 資料庫管理介面: http://localhost:8080/h2
