@@ -12,18 +12,15 @@
 * 公司資料維護
 * 客戶資料維護(包含多筆新增)
   
-### 登入
+### 登入系統
 * 登入頁面: http://localhost:8080/login
 * 取得JWT token:  response header(Authorization) in '/auth/login'
 * 登入成功後轉導swagger頁面: http://localhost:8080/swagger-ui/index.html
 * 設定swagger請求自動帶JWT Token: 在Authorize Locker設定 'Bearer ' + '<JWT_token>'
+* 帳戶資訊確認: GET '/auth/check'
 
 ### 切換帳號
-* 重覆登入流程  
-
-### 帳戶資訊確認: GET '/auth/check'  
-
-### 公司資料維護
+* 重覆登入系統流程  
 
 ### H2 Console
 * 資料庫管理介面: http://localhost:8080/h2
