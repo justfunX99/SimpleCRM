@@ -11,7 +11,10 @@ import com.justfun.entity.Client;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Integer> {
 	
-	@Transactional(readOnly = true)
 	Optional<Client> findByName(String name);
+
+	long countByPhone(String phone);	
 	
+	long countByEmail(String email);
 }
+

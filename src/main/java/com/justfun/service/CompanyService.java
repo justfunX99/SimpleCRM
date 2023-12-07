@@ -3,14 +3,16 @@ package com.justfun.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.justfun.dto.CompanyDTO;
 import com.justfun.entity.Company;
+import com.justfun.mapper.CompanyMapper;
 import com.justfun.repository.CompanyRepository;
 
 @Service
@@ -25,6 +27,8 @@ public class CompanyService {
 
 	@Transactional
 	public Company add(CompanyDTO dto) {
+		validate(dto);
+		
 		Company entity = mapper.convertToEntity(dto);
 		
 		return companyRepository.saveAndFlush(entity);
@@ -32,6 +36,8 @@ public class CompanyService {
 
 	@Transactional
 	public Company update(Integer id, CompanyDTO dto) {
+		validate(dto);
+		
 		Optional<Company> optCompany = companyRepository.findById(id);
 		
 		if(optCompany.isPresent()) {
@@ -66,17 +72,10 @@ public class CompanyService {
 		return companyRepository.findById(id).orElse(new Company());
 	}
 
-
-	@Component
-	class CompanyMapper{
-		public Company convertToEntity(CompanyDTO dto) {
-			Company entity = new Company();
-			BeanUtils.copyProperties(dto, entity, "id");
-			return entity;
-		}		
+	private void validate(CompanyDTO dto) {
+		Assert.isTrue(!StringUtils.isBlank(dto.getName()), "empty name");
+		Assert.isTrue(!StringUtils.isBlank(dto.getAddress()), "empty address");
 	}
-
-
 
 	
 }

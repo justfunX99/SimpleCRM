@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "client")
@@ -24,6 +25,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Client extends AbstractAuditing {
 	private static final long serialVersionUID = 1L;
 
@@ -31,14 +33,16 @@ public class Client extends AbstractAuditing {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@NonNull
+
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "email")
+	// TODO: format validation
+	@Column(name = "email", unique = true)
 	private String email;
 	
-	@Column(name = "phone")
+	// TODO: format validation
+	@Column(name = "phone", unique = true)
 	private String phone;
 
 	// TODO: find a better workaround

@@ -13,8 +13,10 @@ public class ClientDTO {
 	@NonNull
 	private String name;
 	
+	@NonNull
 	private String email;
 	
+	@NonNull
 	private String phone;
 	
 	private Integer belongCompanyId;
