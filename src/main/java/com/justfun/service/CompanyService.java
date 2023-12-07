@@ -63,7 +63,7 @@ public class CompanyService {
 
 	@Transactional(readOnly = true)
 	public Company findById(Integer id) {
-		return companyRepository.findById(id).get();
+		return companyRepository.findById(id).orElse(new Company());
 	}
 
 
