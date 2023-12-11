@@ -40,7 +40,7 @@ public class ClientService {
 
 	@Transactional
 	public Client add(ClientDTO dto) {
-		validate(dto);
+		validate(dto, true);
 		
 		Client client = clientMapper.convertToEntity(dto);
 		
@@ -111,15 +111,7 @@ public class ClientService {
 	}
 	
 	private Optional<Company> validateAndGetCompanyIfNeeded(ClientDTO clientDTO) throws Exception {
-        validate(clientDTO);
-
-		if(clientRepository.countByPhone(clientDTO.getPhone()) > 0) {
-			throw new RuntimeException("duplicated phone");
-		}
-		
-		if(clientRepository.countByEmail(clientDTO.getEmail()) > 0) {
-			throw new RuntimeException("duplicated email");
-		}
+        validate(clientDTO, true);
 		
 		Integer belongCompanyId = clientDTO.getBelongCompanyId();
 		
@@ -137,7 +129,7 @@ public class ClientService {
 	
 	@Transactional
 	public Client update(Integer clientId, ClientDTO dto) {
-		validate(dto);
+		validate(dto, false);
 		
 	  	Optional<Client> optClient = clientRepository.findById(clientId);
 	  	if(!optClient.isPresent()) {
@@ -147,24 +139,32 @@ public class ClientService {
 	  	Client client = optClient.get();
 	  	BeanUtils.copyProperties(dto, client);
 		
-	  	boolean assignCompany = false;
+	    int assignCompany = 0;
 	  	
 	  	if(client.getCompany() == null) {
 	  		if(dto.getBelongCompanyId() != null) {
-	  			assignCompany = true;
+	  			assignCompany = 1;
 	  		}
 	  	}
-	  	else if(client.getCompany().getId() != dto.getBelongCompanyId()) {
-	  		assignCompany = true;
+	  	else {
+	  		if(dto.getBelongCompanyId() == null) {
+	  			assignCompany = -1;
+	  		}
+	  		else if(client.getCompany().getId() != dto.getBelongCompanyId()) {
+	  			assignCompany = 1;
+	  		}
 	  	}
 	  	
-	  	if(assignCompany) {
+	  	if(assignCompany == 1) {
 	  		Optional<Company> optCompany = companyRepository.findById(dto.getBelongCompanyId());
 	  		if(!optCompany.isPresent()) {
 	  			throw new RuntimeException("fail to update client. belong companyId not found.");
 	  		}
 	  		
-	  		client.setCompany(optCompany.get());	
+	  		client.setCompany(optCompany.get());
+	  	}
+	  	else if(assignCompany == -1) {
+	  		client.setCompany(null);
 	  	}
 	  	
 	  	return clientRepository.save(client);
@@ -188,13 +188,25 @@ public class ClientService {
 	
 	@Transactional(readOnly = true)
 	public Client findById(Integer clientId) {
-		return clientRepository.findById(clientId).orElse(new Client());
+		return clientRepository.findById(clientId).orElse(null);
 	}
 	
-	private void validate(ClientDTO dto) {
+	private void validate(ClientDTO dto, boolean create) {
 		Assert.isTrue(!StringUtils.isBlank(dto.getName()), "empty name");
 		Assert.isTrue(!StringUtils.isBlank(dto.getPhone()), "empty phone");
 		Assert.isTrue(!StringUtils.isBlank(dto.getEmail()), "empty email");
+		
+		int checkNum = create ? 0 : 1;
+		
+		
+		if(clientRepository.countByPhone(dto.getPhone()) > checkNum) {
+			throw new RuntimeException("duplicated phone");
+		}
+		
+		if(clientRepository.countByEmail(dto.getEmail()) > checkNum) {
+			throw new RuntimeException("duplicated email");
+		}
+	
 	}
 	
 }
