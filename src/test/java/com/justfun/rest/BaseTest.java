@@ -148,6 +148,8 @@ public class BaseTest {
             assertThrows(Exception.class, () -> {
             	mvc.perform(builder);
             });
+    	}else {
+    		throw new IllegalArgumentException("parameters misused");
     	}
 		
 	}
