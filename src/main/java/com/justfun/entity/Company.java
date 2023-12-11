@@ -27,10 +27,11 @@ public class Company extends AbstractAuditing {
 	private Integer id;
 	
 	@NonNull
-	@Column(name = "name", unique = true)
+	@Column(name = "name", unique = true, nullable = false)
 	private String name;
 
-	@Column(name = "address", unique = true)
+	@NonNull
+	@Column(name = "address", unique = true, nullable = false)
 	private String address;
 	
 	

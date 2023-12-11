@@ -49,7 +49,7 @@ public class CompanyService {
 		throw new RuntimeException("fail to update company. id not found.");
 	}
 	
-	
+	// TODO: fix_ companies with clients couldn't be deleted
 	@Transactional
 	public void delete(Integer id) {
 		Optional<Company> optCompany = companyRepository.findById(id);
@@ -69,7 +69,7 @@ public class CompanyService {
 
 	@Transactional(readOnly = true)
 	public Company findById(Integer id) {
-		return companyRepository.findById(id).orElse(new Company());
+		return companyRepository.findById(id).orElse(null);
 	}
 
 	private void validate(CompanyDTO dto) {
