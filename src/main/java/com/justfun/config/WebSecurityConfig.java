@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -33,12 +34,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	// TODO: user multiple WebSecurityConfigurerAdapter for form login and logic API
 	
-	@Value("${security.token.key}")
-	private String kid;
+//	@Value("${security.token.key}")
+//	private String kid;
 	
+	@Lazy
 	@Autowired
 	private CustomUsernamePasswordAuthProvider customUsernamePasswordAuthProvider;
 	
+	@Lazy
 	@Autowired
 	private JwtAuthProvider jwtAuthProvider;
 	
@@ -48,10 +51,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 	
-	@Bean
-	public JwtTokenHelper jwtTokenHelper() throws JOSEException {
-		return new JwtTokenHelper(kid);
-	}
+//	@Bean
+//	public JwtTokenHelper jwtTokenHelper() throws JOSEException {
+//		return new JwtTokenHelper(kid);
+//	}
 	
 	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
 	@Override

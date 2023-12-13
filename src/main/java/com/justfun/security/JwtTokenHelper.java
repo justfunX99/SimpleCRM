@@ -7,11 +7,13 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.nimbusds.jose.JOSEException;
@@ -25,13 +27,17 @@ import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
+@Component
 public class JwtTokenHelper {
 
 	private static final String AUTHORITIES = "authorities";
 	
+	@Value("${security.token.key}")
+	private String kid;
+	
 	private RSAKey rsaJWK;
 	
-	public JwtTokenHelper(/** @Value("${security.token.key}")**/ String kid) throws JOSEException {
+	public JwtTokenHelper() throws JOSEException {
 		rsaJWK = new RSAKeyGenerator(2048).keyID(kid).generate();
 	}
 	
