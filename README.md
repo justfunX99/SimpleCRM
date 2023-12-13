@@ -5,7 +5,7 @@
 * Maven
 * Swagger Integration
 * JWT Authentication and Authorization
-* Docker integration(本地打包, 容器運行)
+* Docker integration(docker build, package and run)
 * Deploy to cloud platform(railway.app)
 
 ### function
@@ -30,13 +30,14 @@
 * JDBC URL: jdbc:h2:mem:dbtest
 * User Name/Password: sa/sa  
 
+### 雲平台部署 in railway.app 
+* 登入頁面: https://simplecrm-production.up.railway.app
+
 ### 測試帳號與角色
 * ray/ray: SUPER_USER
 * may/may: MANAGER
 * jay/jay: OPERATOR
 
-### railway.app 雲平台部署
-* 應用程式位置: https://simplecrm-production.up.railway.app
   
 
 
