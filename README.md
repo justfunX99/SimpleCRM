@@ -6,7 +6,7 @@
 * Swagger Integration
 * JWT Authentication and Authorization
 * Docker integration(本地打包, 容器運行)
-* (暫無) Deploy to cloud platform
+* Deploy to cloud platform(railway.app)
 
 ### function
 * 公司資料維護
@@ -35,6 +35,9 @@
 * may/may: MANAGER
 * jay/jay: OPERATOR
 
+### railway.app 雲平台部署
+* 應用程式位置: https://simplecrm-production.up.railway.app
+  
 
 
 
