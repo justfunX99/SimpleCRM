@@ -5,7 +5,7 @@
 * Maven
 * Swagger Integration
 * JWT Authentication and Authorization
-* (暫無) Docker integration
+* Docker integration(本地打包, 容器運行)
 * (暫無) Deploy to cloud platform
 
 ### function
